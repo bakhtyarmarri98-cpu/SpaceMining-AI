@@ -1,41 +1,206 @@
-/* CSS Code for Layout and Design */
-body {
-    font-family: Arial, sans-serif;
-    /* پرانا ہلکا رنگ ہٹا کر ڈارک نائٹ بلیو کلر لگا دیا ہے */
-    background: #0b111e; 
+/* ==========================================================================
+   SPACEMINING AI - Global Dark Neon Cosmic Styling
+   ========================================================================== */
+
+:root {
+    --bg-cosmic: #060814;
+    --bg-card: rgba(11, 15, 38, 0.85);
+    --neon-blue: #00f2fe;
+    --neon-green: #00ff87;
+    --neon-orange: #ff9f43;
+    --neon-red: #ff4757;
+    --text-main: #ffffff;
+    --text-muted: #8b9bb4;
+    --border-glow: rgba(0, 242, 254, 0.2);
+}
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-cosmic);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Space Background Animation Setup - Fixed Without Broken Imgur Links */
+.stars, .twinkling {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -1;
+}
+
+.stars {
+    /* خراب تصویر ہٹا کر اسے صاف ڈارک لک دے دیا ہے */
+    background: var(--bg-cosmic);
+}
+
+.twinkling {
+    /* خراب اینیمیشن امیج ہٹا دی تاکہ کوئی ایرر شو نہ ہو */
+    background: transparent;
+}
+
+/* Authentication Screen UI */
+.auth-body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-}
-
-.container {
-    /* لاگ ان باکس کا بیک گراؤنڈ بھی ڈارک اور سکرین شاٹ جیسا میچنگ کر دیا ہے */
-    background-color: #111a2e; 
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-height: 100vh;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+    z-index: 10;
+}
+
+.auth-header {
     text-align: center;
-    color: #ffffff; /* ٹیکسٹ کا رنگ سفید کر دیا */
+    margin-bottom: 30px;
 }
 
-h1 {
-    color: #ffffff;
+.rocket-icon {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 10px;
 }
 
-button {
-    background-color: #00bcd4; /* بٹن کا رنگ چمکدار سائین (Cyan) کر دیا ہے جیسا آپ کی ایپ میں ہے */
-    color: white;
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.brand-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+}
+
+.text-neon-blue { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 242, 254, 0.6); }
+.text-neon-green { color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 135, 0.6); }
+.text-neon-orange { color: var(--neon-orange); text-shadow: 0 0 10px rgba(255, 159, 67, 0.6); }
+
+brand-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.auth-tabs {
+    display: flex;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    color: var(--text-muted);
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-button:hover {
-    background-color: #0097a7;
+.tab-btn.active {
+    color: var(--neon-blue);
+    border-bottom: 2px solid var(--neon-blue);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.input-group label i {
+    margin-right: 5px;
+    color: var(--neon-blue);
+}
+
+.input-group input, .input-group select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #0072ff, var(--neon-blue));
+    border: none;
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+}
+
+.btn-signup {
+    background: linear-gradient(135deg, #00b4db, var(--neon-green));
+    box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+}
+
+.btn-signup:hover {
+    box-shadow: 0 6px 20px rgba(0, 255, 135, 0.5);
 }
