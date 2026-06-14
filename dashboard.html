@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACEMINING AI - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ڈیش بورڈ کے مخصوص اسٹائلز */
+        .dashboard-container { max-width: 1200px; margin: 30px auto; padding: 20px; z-index: 10; position: relative; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border-glow); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 0 15px rgba(0,242,254,0.1); }
+        .stat-card h3 { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
+        .stat-card .value { font-size: 1.8rem; font-family: 'Orbitron', sans-serif; color: var(--neon-blue); }
+        
+        .section-title { font-family: 'Orbitron', sans-serif; color: var(--neon-orange); margin: 40px 0 20px 0; text-shadow: 0 0 10px rgba(255,159,67,0.4); text-align: center; }
+        
+        /* ڈپازٹ اور ودڈرال سیکشن */
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .action-card { background: var(--bg-card); border: 1px solid var(--border-glow); padding: 25px; border-radius: 16px; }
+        .wallet-box { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; font-size: 0.85rem; word-break: break-all; border: 1px dashed var(--neon-blue); color: var(--neon-green); margin: 15px 0; text-align: center; }
+        
+        /* مائننگ پلانز کارڈز */
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .plan-card { background: var(--bg-card); border: 1px solid var(--border-glow); padding: 30px; border-radius: 16px; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(0,255,135,0.2); border-color: var(--neon-green); }
+        .plan-name { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 15px; }
+        .plan-profit { font-size: 2rem; color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 10px; }
+        .plan-details { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+        
+        .btn-action { width: 100%; background: linear-gradient(135deg, #0072ff, var(--neon-blue)); border: none; color: white; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-action:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-subscribe { background: linear-gradient(135deg, #00b4db, var(--neon-green)); }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <div class="dashboard-container">
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 class="brand-title" style="font-size: 2.5rem;">SPACEMINING <span class="text-neon-blue">AI</span></h1>
+            <p class="brand-subtitle">Welcome to Your Cosmic Mining Command</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-wallet" style="color: var(--neon-blue);"></i> Total Wallet Balance</h3>
+                <div class="value" id="wallet-balance">$0.00</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-chart-line" style="color: var(--neon-green);"></i> Daily Mining Profit</h3>
+                <div class="value" id="daily-profit">$0.00</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-layer-group" style="color: var(--neon-orange);"></i> Active Packages</h3>
+                <div class="value" id="active-packages">0</div>
+            </div>
+        </div>
+
+        <div class="action-grid">
+            <div class="action-card">
+                <h2 style="color: var(--neon-blue); font-family: 'Orbitron'; font-size: 1.2rem;"><i class="fas fa-arrow-alt-circle-down"></i> Deposit USDT (BEP20)</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Send USDT on BNB Blockchain to this address:</p>
+                <div class="wallet-box">0xa4d6da5f8e2c2ea407e0a7f58369ab060c81f81f</div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <input type="number" id="deposit-amount" placeholder="Enter deposited amount ($)" min="10">
+                </div>
+                <button class="btn-action" onclick="notifyDeposit()">Confirm Deposit</button>
+            </div>
+
+            <div class="action-card">
+                <h2 style="color: var(--neon-red); font-family: 'Orbitron'; font-size: 1.2rem;"><i class="fas fa-arrow-alt-circle-up"></i> Withdraw Funds</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Minimum withdrawal is $10</p>
+                <div class="input-group" style="margin-top: 15px; margin-bottom: 15px;">
+                    <input type="text" id="withdraw-address" placeholder="Enter your USDT Wallet Address" style="margin-bottom: 10px;">
+                    <input type="number" id="withdraw-amount" placeholder="Amount to withdraw ($)" min="10">
+                </div>
+                <button class="btn-action" style="background: linear-gradient(135deg, #ff4757, #ff6b81);" onclick="handleWithdraw()">Request Withdrawal</button>
+            </div>
+        </div>
+
+        <h2 class="section-title">Select Mining Fleet Plan</h2>
+        <div class="plans-grid">
+            
+            <div class="plan-card">
+                <div class="plan-name">Weekly Fleet</div>
+                <div class="plan-profit">$0.10 <span style="font-size: 0.9rem; color: var(--text-muted);">/Daily</span></div>
+                <div class="plan-details">
+                    Cost to Subscribe: <strong>$10.00</strong><br>
+                    Duration: 7 Days<br>
+                    Principal returned at end of term.
+                </div>
+                <button class="btn-action btn-subscribe" onclick="subscribePlan('Weekly', 10, 0.10)">Subscribe Plan</button>
+            </div>
+
+            <div class="plan-card" style="border-color: var(--neon-orange);">
+                <div class="plan-name" style="color: var(--neon-orange);">Monthly Fleet</div>
+                <div class="plan-profit" style="color: var(--neon-orange);">$0.20 <span style="font-size: 0.9rem; color: var(--text-muted);">/Daily</span></div>
+                <div class="plan-details">
+                    Cost to Subscribe: <strong>$10.00</strong><br>
+                    Duration: 30 Days<br>
+                    Principal returned at end of term.
+                </div>
+                <button class="btn-action btn-subscribe" style="background: linear-gradient(135deg, #ff9f43, #ffb142);" onclick="subscribePlan('Monthly', 10, 0.20)">Subscribe Plan</button>
+            </div>
+
+            <div class="plan-card" style="border-color: var(--neon-blue);">
+                <div class="plan-name" style="color: var(--neon-blue);">Yearly Fleet</div>
+                <div class="plan-profit" style="color: var(--neon-blue);">$0.40 <span style="font-size: 0.9rem; color: var(--text-muted);">/Daily</span></div>
+                <div class="plan-details">
+                    Cost to Subscribe: <strong>$10.00</strong><br>
+                    Duration: 365 Days<br>
+                    Principal returned at end of term.
+                </div>
+                <button class="btn-action btn-subscribe" style="background: linear-gradient(135deg, #0072ff, #00f2fe);" onclick="subscribePlan('Yearly', 10, 0.40)">Subscribe Plan</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // عارضی ڈیٹا سٹوریج (پیج ریفریش پر ڈیٹا محفوظ رکھنے کے لیے)
+        let balance = parseFloat(localStorage.getItem('space_balance')) || 0.00;
+        let dailyProfit = parseFloat(localStorage.getItem('space_profit')) || 0.00;
+        let activePackages = parseInt(localStorage.getItem('space_packages')) || 0;
+
+        // اسکرین پر ڈیٹا اپڈیٹ کرنے کا فنکشن
+        function updateUI() {
+            document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
+            document.getElementById('daily-profit').innerText = `$${dailyProfit.toFixed(2)}`;
+            document.getElementById('active-packages').innerText = activePackages;
+            
+            localStorage.setItem('space_balance', balance);
+            localStorage.setItem('space_profit', dailyProfit);
+            localStorage.setItem('space_packages', activePackages);
+        }
+
+        // پیج لوڈ ہوتے ہی یو آئی اپڈیٹ کریں
+        updateUI();
+
+        // ڈپازٹ کنفرمیشن کا فنکشن
+        function notifyDeposit() {
+            const amount = parseFloat(document.getElementById('deposit-amount').value);
+            if(!amount || amount < 10) {
+                alert("Minimum deposit amount is $10!");
+                return;
+            }
+            balance += amount;
+            alert(`Deposit Request Received! $${amount} added to your Wallet successfully.`);
+            document.getElementById('deposit-amount').value = '';
+            updateUI();
+        }
+
+        // ودڈرال کا فنکشن
+        function handleWithdraw() {
+            const address = document.getElementById('withdraw-address').value;
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            
+            if(!address) {
+                alert("Please enter a valid USDT Wallet Address!");
+                return;
+            }
+            if(!amount || amount < 10) {
+                alert("Minimum withdrawal is $10!");
+                return;
+            }
+            if(amount > balance) {
+                alert("Insufficient wallet balance!");
+                return;
+            }
+            
+            balance -= amount;
+            alert(`Withdrawal request for $${amount} submitted! Funds will arrive on BNB chain soon.`);
+            document.getElementById('withdraw-amount').value = '';
+            document.getElementById('withdraw-address').value = '';
+            updateUI();
+        }
+
+        // پیکج سبسکرائب کرنے کا لاجک
+        function subscribePlan(planName, cost, dailyRate) {
+            if(balance < cost) {
+                alert(`Insufficient Balance! You need at least $${cost} to subscribe to the ${planName} Fleet.`);
+                return;
+            }
+            
+            balance -= cost;
+            dailyProfit += dailyRate;
+            activePackages += 1;
+            
+            alert(`Successfully Subscribed to ${planName} Fleet! $${cost} deducted. Your daily profit increased by $${dailyRate}.`);
+            updateUI();
+        }
+    </script>
+</body>
+                  </html>
+                  
