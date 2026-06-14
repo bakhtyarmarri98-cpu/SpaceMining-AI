@@ -66,9 +66,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
     <script>
-        // ٹیلنٹڈ ٹیبز بدلنے کا اسکرپٹ
         function switchTab(type) {
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
@@ -88,28 +86,11 @@
             }
         }
 
-        // لاگ ان کو ہینڈل کرنے کا نیا فنکشن
-        function handleLogin(event) {
-            event.preventDefault(); // پیج کو ریفریش ہونے سے روکنے کے لیے
-
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-
-            // آپ کا ایڈمن ای میل اور پاسورڈ چیک ہو رہا ہے
-            if (email === "bakhtyarmarri2@gmail.com" && password === "Marri@123") {
-                alert("Login Successful! Opening Dashboard...");
-                window.location.href = "dashboard.html"; // یہ آپ کو ڈیش بورڈ پیج پر لے جائے گا
-            } else {
-                alert("Error: Invalid Email or Password!"); // اگر غلط ہو تو یہ ایرر آئے گا
-            }
-        }
-
-        // سائن اپ/رجسٹریشن کو ہینڈل کرنے کا نیا فنکشن
+        // نیا رجسٹریشن سسٹم (لوکل ڈیٹا بیس)
         function handleSignup(event) {
             event.preventDefault();
-
             const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
+            const email = document.getElementById('signup-email').value.toLowerCase().trim();
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
 
@@ -118,8 +99,37 @@
                 return;
             }
 
-            alert("Registration Successful, Explorer! Please Log In.");
-            switchTab('login'); // اکاؤنٹ بننے کے بعد لاگ ان اسکرین پر بھیج دے گا
+            // یوزرز کا ڈیٹا لوکل سٹوریج میں سیو کرنا
+            let users = JSON.parse(localStorage.getItem('mining_users')) || {};
+            if (users[email] || email === "bakhtyarmarri2@gmail.com") {
+                alert("Error: This email is already registered!");
+                return;
+            }
+
+            users[email] = { name: name, password: password, balance: 0.00 };
+            localStorage.setItem('mining_users', JSON.stringify(users));
+
+            alert("Registration Successful, Explorer! Please Log In Now.");
+            document.getElementById('signup-form').reset();
+            switchTab('login');
+        }
+
+        // فکسڈ لاگ ان سسٹم
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value.toLowerCase().trim();
+            const password = document.getElementById('login-password').value;
+
+            let users = JSON.parse(localStorage.getItem('mining_users')) || {};
+
+            // ایڈمن لاگ ان چیک یا نئے یوزر کا لاگ ان چیک
+            if ((email === "bakhtyarmarri2@gmail.com" && password === "Marri@123") || (users[email] && users[email].password === password)) {
+                // سیشن سیو کرنا
+                localStorage.setItem('current_user', email);
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Error: Invalid Email or Password!");
+            }
         }
     </script>
 </body>
