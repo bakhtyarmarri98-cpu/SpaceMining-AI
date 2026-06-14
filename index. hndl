@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceMining AI - Premium Orbital Platform</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #05070f;
+            color: #f0f3fa;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(0, 210, 255, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(5, 7, 15, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00d2ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #00d2ff;
+        }
+
+        .btn-glow {
+            background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Hero / Main Area */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 5% 20px 5%;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 40%, #a0aec0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: #a0aec0;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Trust Stats Panel (Before Login View) */
+        .trust-panel {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(13, 20, 38, 0.5);
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+            margin: 40px auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-box h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #00d2ff;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .stat-box p {
+            color: #a0aec0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider-line {
+            width: 1px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dashboard View */
+        .main-container {
+            padding: 40px 5%;
+            display: none;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(13, 20, 38, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            color: #a0aec0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .counter-glow {
+            color: #00d2ff;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .plan-card {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 14, 27, 0.85) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d2ff;
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.15);
+        }
+
+        .plan-badge {
+            background: rgba(0, 210, 255, 0.1);
+            color: #00d2ff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .plan-rate {
+            font-size: 34px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 15px 0;
+        }
+
+        .plan-rate span {
+            font-size: 14px;
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #a0aec0;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(6, 9, 19, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px;
+            color: white;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #00d2ff;
+        }
+
+        .qr-placeholder {
+            background: white;
+            width: 180px;
+            height: 180px;
+            margin: 15px auto;
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 6, 12, 0.9);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #0d1426;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #a0aec0;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .trust-panel {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .divider-line {
+                display: none;
+            }
+            .hero-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">🚀 SpaceMining AI</div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" onclick="showView('home')">Home</a></li>
+            <li><a href="#" id="dashLink" style="display:none;" onclick="showView('dashboard')">Command Dashboard</a></li>
+        </ul>
+        <button class="btn-glow" id="authBtn" onclick="openModal('login')">Initialize Link</button>
+    </nav>
+
+    <!-- Home Section -->
+    <div id="homeView">
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Automated <span>Cosmic Cloud</span> Infrastructure</h1>
+                <p class="hero-desc">Secure sustainable cloud allocations with precise algorithms. Deploy your operational parameters under strategic holding modules designed for locked-duration structural efficiency.</p>
+                <button class="btn-glow" style="padding: 16px 45px; font-size: 16px;" onclick="openModal('register')">Launch Dynamic Array</button>
+            </div>
+
+            <!-- Global Proof Panel (Requested 1M users and 10M spent display) -->
+            <div class="trust-panel">
+                <div class="stat-box">
+                    <h2>1,048,520+</h2>
+                    <p>Active Space Explorers</p>
+                </div>
+                <div class="divider-line"></div>
+                <div class="stat-box">
+                    <h2>$10,240,500+</h2>
+                    <p>Total Capital Allocated</p>
+                </div>
+                <div class="divider-line"></div>
+                <div class="stat-box">
+                    <h2>TRC-20</h2>
+                    <p>Core Gateway Protocol</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Dashboard Section -->
+    <main class="main-container" id="dashboardView">
+        <h2 style="font-size: 26px; margin-bottom: 25px;">Orbital Cluster Management</h2>
+        
+        <div class="dashboard-grid">
+            <!-- Balance Counter -->
+            <div class="card" style="grid-column: span 2; animation: pulse 3s infinite;">
+                <div class="card-title">Available Scaled Profits (Withdrawable)</div>
+                <div class="card-value counter-glow">$ <span id="balanceCounter">0.000000</span></div>
+            </div>
+            <!-- Locked Funds Counter -->
+            <div class="card">
+                <div class="card-title">Locked Strategic Capital</div>
+                <div class="card-value" style="color: #ffb800;" id="lockedCapital">$0.00</div>
+            </div>
+        </div>
+
+        <!-- System Architecture Upgrades (Weekly, Monthly, Yearly) -->
+        <h3 style="font-size: 22px; margin-bottom: 20px;">Deploy Active Sub-Arrays</h3>
+        <div class="plans-grid">
+            <!-- Weekly -->
+            <div class="plan-card">
+                <div class="plan-badge">7-Day Orbit</div>
+                <div class="plan-name">Weekly Node Array</div>
+                <div class="plan-rate">0.10% <span>/ daily</span></div>
+                <p style="color: #a0aec0; font-size: 14px; margin-bottom: 20px;">Capital Locked for 7 Days. Yield distributed directly to balance terminal every second.</p>
+                <input type="number" class="form-control" id="amtPlan1" placeholder="Amount (Min. $10)" style="margin-bottom:15px; text-align:center;">
+                <button class="btn-glow" style="width:100%;" onclick="activatePlan(1, 0.10)">Deploy Module</button>
+            </div>
+            <!-- Monthly -->
+            <div class="plan-card" style="border-color: rgba(0, 210, 255, 0.3);">
+                <div class="plan-badge" style="background:rgba(0, 210, 255, 0.2);">30-Day Orbit</div>
+                <div class="plan-name">Monthly Processing Array</div>
+                <div class="plan-rate" style="color: #00d2ff;">0.20% <span>/ daily</span></div>
+                <p style="color: #a0aec0; font-size: 14px; margin-bottom: 20px;">Capital Locked for 30 Days. Accelerated yield algorithms updated constantly.</p>
+                <input type="number" class="form-control" id="amtPlan2" placeholder="Amount (Min. $10)" style="margin-bottom:15px; text-align:center;">
+                <button class="btn-glow" style="width:100%;" onclick="activatePlan(2, 0.20)">Deploy Module</button>
+            </div>
+            <!-- Yearly -->
+            <div class="plan-card">
+                <div class="plan-badge">365-Day Deep Space</div>
+                <div class="plan-name">Yearly Infinite Core</div>
+                <div class="plan-rate">0.40% <span>/ daily</span></div>
+                <p style="color: #a0aec0; font-size: 14px; margin-bottom: 20px;">Capital Locked for 1 Year. Maximum algorithmic power allocation.</p>
+                <input type="number" class="form-control" id="amtPlan3" placeholder="Amount (Min. $10)" style="margin-bottom:15px; text-align:center;">
+                <button class="btn-glow" style="width:100%;" onclick="activatePlan(3, 0.40)">Deploy Module</button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));">
+            <!-- Upgraded Deposit Box with custom Bitget details -->
+            <div class="card">
+                <h3 style="margin-bottom:15px; font-size:18px;">Replenish Terminal Energy</h3>
+                <div class="form-group">
+                    <label>Selected Network Path</label>
+                    <input type="text" class="form-control" value="USDT - TRC20 (Tron Network)" readonly style="color: #00d2ff;">
+                </div>
+                <div class="form-group">
+                    <label>Official Inbound Storage Gateway Address</label>
+                    <input type="text" class="form-control" id="depWallet" value="TZ8eGaxBFvPp4qzYyBxXanmkggami58CeP" readonly style="color: #ffb800; font-family: monospace; font-weight: bold; font-size:13px;">
+                </div>
+                
+                <!-- Displayed QR Code Placeholder -->
+                <div class="qr-placeholder">
+                    <!-- If you name the uploaded file exactly as 1781403501045.jpg, it links natively -->
+                    <img src="1781403501045.jpg" alt="Official QR Code Array">
+                </div>
+
+                <p style="font-size: 12px; color: #a0aec0; text-align:center;">Minimum deposit configuration threshold: <b>$10.00 USD</b></p>
+                <button class="btn-glow" style="width: 100%; margin-top: 15px;" onclick="alert('Synchronizing gateway entries... Process triggers automatically on node confirmation.')">Verify Payload Sync</button>
+            </div>
+
+            <!-- Withdrawal Segment -->
+            <div class="card">
+                <h3 style="margin-bottom:15px; font-size:18px;">Extract Secured Payload Fuel</h3>
+                <div class="form-group">
+                    <label>Destination Target Wallet (USDT-TRC20 Address)</label>
+                    <input type="text" class="form-control" id="outAddress" placeholder="Provide external wallet node address">
+                </div>
+                <div class="form-group">
+                    <label>Amount to Dispatch (USD)</label>
+                    <input type="number" class="form-control" id="outAmount" placeholder="Minimum limit $10.00">
+                </div>
+                <p style="font-size:12px; color: #a0aec0; margin-bottom:15px;">🔒 Processing runs secure protocol checks. Validated payloads transfer out instantly.</p>
+                <button class="btn-glow" style="width: 100%; background: linear-gradient(135deg, #ff0055 0%, #990033 100%); box-shadow: 0 4px 15px rgba(255,0,85,0.2);" onclick="executeOutbound()">Initiate Core Extraction</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals Structure -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let isUserLoggedIn = false;
+        let currentBalance = 0.00;
+        let lockedCapital = 0.00;
+        let runningYieldPerSec = 0;
+        let systemClock = null;
+
+        function showView(view) {
+            if (view === 'dashboard' && !isUserLoggedIn) {
+                openModal('login');
+                return;
+            }
+            if (view === 'dashboard') {
+                document.getElementById('homeView').style.display = 'none';
+                document.getElementById('dashboardView').style.display = 'block';
+                document.getElementById('dashLink').classList.add('active');
+            } else {
+                document.getElementById('homeView').style.display = 'block';
+                document.getElementById('dashboardView').style.display = 'none';
+                document.getElementById('dashLink').classList.remove('active');
+            }
+        }
+
+        function openModal(type) {
+            const overlay = document.getElementById('authModal');
+            const content = document.getElementById('modalContent');
+            overlay.classList.add('active');
+
+            if (type === 'login') {
+                content.innerHTML = `
+                    <h3 style="font-size:22px; text-align:center; margin-bottom:20px;">Access Secure Terminal</h3>
+                    <div class="form-group"><label>Explorer ID / Email</label><input type="email" class="form-control" value="explorer@spacemining.ai"></div>
+                    <div class="form-group"><label>Passkey</label><input type="password" class="form-control" value="password123"></div>
+                    <button class="btn-glow" style="width:100%; margin-top:10px;" onclick="authenticateUser()">Authorize Cluster Connection</button>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h3 style="font-size:22px; text-align:center; margin-bottom:20px;">Register New Explorer ID</h3>
+                    <div class="form-group"><label>Email Endpoint</label><input type="email" class="form-control" placeholder="name@domain.com"></div>
+                    <div class="form-group"><label>Secure Password Matrix</label><input type="password" class="form-control" placeholder="••••••••"></div>
+                    <button class="btn-glow" style="width:100%; margin-top:10px;" onclick="authenticateUser()">Establish Cluster Matrix</button>
+                `;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function authenticateUser() {
+            isUserLoggedIn = true;
+            closeModal();
+            document.getElementById('dashLink').style.display = 'inline-block';
+            document.getElementById('authBtn').innerText = "Disconnect Link";
+            document.getElementById('authBtn').onclick = () => location.reload();
+            showView('dashboard');
+            startCoreClock();
+        }
+
+        function activatePlan(planId, dailyRate) {
+            const inputField = document.getElementById(`amtPlan${planId}`);
+            const amount = parseFloat(inputField.value);
+
+            if (isNaN(amount) || amount < 10) {
+                alert("Transaction Rejected! Minimum system unit allocation is $10.00 USD.");
+                return;
+            }
+
+            lockedCapital += amount;
+            document.getElementById('lockedCapital').innerText = "$" + lockedCapital.toFixed(2);
+            
+            // Calculating exact live increments per second based on specified daily percentage
+            runningYieldPerSec += (amount * (dailyRate / 100) / 86400);
+            
+            inputField.value = "";
+            alert(`Strategic Module Initialized! Capital locked successfully. Profits accumulating instantly.`);
+        }
+
+        function startCoreClock() {
+            if (!systemClock) {
+                systemClock = setInterval(() => {
+                    if (runningYieldPerSec > 0) {
+                        currentBalance += runningYieldPerSec;
+                        document.getElementById('balanceCounter').innerText = currentBalance.toFixed(6);
+                    }
+                }, 1000);
+            }
+        }
+
+        function executeOutbound() {
+            const target = document.getElementById('outAddress').value;
+            const targetAmt = parseFloat(document.getElementById('outAmount').value);
+
+            if (!target) {
+                alert("Protocol Error! Valid destination wallet network matrix required.");
+                return;
+            }
+            if (isNaN(targetAmt) || targetAmt < 10) {
+                alert("Protocol Error! System minimum withdrawal floor limit is $10.00 USD.");
+                return;
+            }
+            if (currentBalance < targetAmt) {
+                alert("Extraction Failed! Insufficient unlocked payload fuel balance.");
+                return;
+            }
+
+            currentBalance -= targetAmt;
+            document.getElementById('balanceCounter').innerText = currentBalance.toFixed(6);
+            alert(`Extraction Complete! Secure payload dispatched to targeted node address: ${target}`);
+        }
+    </script>
+</body>
+</html>
