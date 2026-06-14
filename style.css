@@ -42,7 +42,7 @@ body {
 }
 
 .stars {
-    background: #000 url('https://i.imgur.com/Y6scgK9.png') repeat top center;
+    background: linear-gradient(135deg, #070b12 0%, #111a2e 100%);
 }
 
 .twinkling {
