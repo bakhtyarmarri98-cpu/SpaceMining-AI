@@ -68,7 +68,7 @@
 
     <script src="app.js"></script>
     <script>
-        // Simple UI toggle script for switching tabs
+        // ٹیلنٹڈ ٹیبز بدلنے کا اسکرپٹ
         function switchTab(type) {
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
@@ -86,6 +86,40 @@
                 tabLogin.classList.remove('active');
                 tabSignup.classList.add('active');
             }
+        }
+
+        // لاگ ان کو ہینڈل کرنے کا نیا فنکشن
+        function handleLogin(event) {
+            event.preventDefault(); // پیج کو ریفریش ہونے سے روکنے کے لیے
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // آپ کا ایڈمن ای میل اور پاسورڈ چیک ہو رہا ہے
+            if (email === "bakhtyarmarri2@gmail.com" && password === "Marri@123") {
+                alert("Login Successful! Opening Dashboard...");
+                window.location.href = "dashboard.html"; // یہ آپ کو ڈیش بورڈ پیج پر لے جائے گا
+            } else {
+                alert("Error: Invalid Email or Password!"); // اگر غلط ہو تو یہ ایرر آئے گا
+            }
+        }
+
+        // سائن اپ/رجسٹریشن کو ہینڈل کرنے کا نیا فنکشن
+        function handleSignup(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert("Error: Passwords do not match!");
+                return;
+            }
+
+            alert("Registration Successful, Explorer! Please Log In.");
+            switchTab('login'); // اکاؤنٹ بننے کے بعد لاگ ان اسکرین پر بھیج دے گا
         }
     </script>
 </body>
